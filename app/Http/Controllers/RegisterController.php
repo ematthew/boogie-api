@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\BoogieUser;
+use Carbon\Carbon;
 
 class RegisterController extends Controller
 {
@@ -24,7 +25,28 @@ class RegisterController extends Controller
 		$user->login_type			= $request->login_type;
 		$user->fcm_token			= $request->fcm_token;
 		$user->device_id			= $request->device_id;
-		$user->social_token			= $request->social_token;
+        $user->social_token         = $request->social_token;
+        $user->reward_point         = 1;
+        $user->total_login          = 1;
+        $user->boggie_vip           = 1;
+        $user->subscription_start_utc = now();
+        $user->subscription_end_utc = Carbon::now()->addDays(365);
+        $user->deliveries_count     = 0;
+        $user->user_image_name      = "avatar";
+        $user->user_image_path      = public_path('avatars');
+        $user->user_wallet_money    = 0;
+        $user->user_lat             = 0.33440;
+        $user->user_long            = 0.67756;
+        $user->created_on           = now();
+        $user->updated_on           = now();
+        $user->utc_created_on       = now();
+        $user->utc_updated_on       = now();
+        $user->deleted_on           = now();
+        $user->utc_deleted_on       = now();
+        $user->user_status          = 1;
+        $user->dispatcher_status    = 1;
+        $user->marketer_id          = 1;
+		$user->marketer_name	    = " ";
     	$user->save();
 
 
