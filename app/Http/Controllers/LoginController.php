@@ -34,7 +34,7 @@ class LoginController extends Controller
     			];
     		}else{
     			$token = JWTAuth::fromUser($user);
-
+    			
     			$data = [
 		    		"status" 	=> "success",
 		    		"message" 	=> "Login successful",

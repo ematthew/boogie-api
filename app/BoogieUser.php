@@ -12,7 +12,7 @@ class BoogieUser extends Authenticatable implements JWTSubject
     protected $table = 'boogie_user';
     protected $guarded = ['id'];
     public $timestamps = false;
-    // protected $hidden =	['userpassword'];
+    protected $hidden =	['userpassword'];
 
 
     // use Notifiable;
