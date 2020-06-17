@@ -10,8 +10,7 @@ class RegisterController extends Controller
 {
     public function create(Request $request)
     {
-
-        $already_email = BoogieUser::where("useremail", $request->useremail)->first();
+        $already_email = BoogieUser::where("useremail", $request->user_email)->first();
         $already_mobile = BoogieUser::where("user_mobile", $request->user_mobile)->first();
 
         if($already_email !== null){
@@ -73,7 +72,7 @@ class RegisterController extends Controller
 
     public function fetchall(Request $request)
     {
-    	$users = BoogieUser::all();
+    	$users = BoogieUser::limit(5)->orderBy('id', 'DESC')->get();
 
     	$data = [
 			'status'    => 'success',

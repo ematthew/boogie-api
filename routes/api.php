@@ -18,8 +18,28 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+
+/*
+|--------------------------------------------------------------------------
+| INTRO
+|--------------------------------------------------------------------------
+|*/
 Route::get('/', 'ApiTestController@index');
 
-Route::post('/users', 'RegisterController@create');
 
-Route::get('/users', 'RegisterController@fetchall');
+/*
+|--------------------------------------------------------------------------
+| REGISTER 
+|--------------------------------------------------------------------------
+|*/
+Route::post('/users', 	'RegisterController@create');
+Route::get('/users', 	'RegisterController@fetchall');
+
+
+/*
+|--------------------------------------------------------------------------
+| LOGIN
+|--------------------------------------------------------------------------
+|*/
+Route::post('/login',	'LoginController@loginUser');
+
