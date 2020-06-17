@@ -42,7 +42,6 @@ class RegisterController extends Controller
             $user->social_token         = $request->social_token;
             $user->reward_point         = 1;
             $user->total_login          = 1;
-            $user->boggie_vip           = 1;
             $user->subscription_start_utc = now();
             $user->subscription_end_utc = Carbon::now()->addDays(365);
             $user->deliveries_count     = 0;
