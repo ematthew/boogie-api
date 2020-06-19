@@ -43,3 +43,11 @@ Route::get('/users', 	'RegisterController@fetchall');
 |*/
 Route::post('/login',	'LoginController@loginUser');
 
+/*
+|--------------------------------------------------------------------------
+| RESET PASSWORD
+|--------------------------------------------------------------------------
+|*/
+Route::post('/reset/link',		'PasswordResetController@sendLink');
+Route::post('/reset/password',	'PasswordResetController@resetPassword');
+
