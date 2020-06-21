@@ -46,6 +46,16 @@ Route::post('/login',	'LoginController@loginUser');
 
 /*
 |--------------------------------------------------------------------------
+| RESET PASSWORD
+|--------------------------------------------------------------------------
+|*/
+Route::post('/reset/link',		'PasswordResetController@sendLink');
+Route::post('/reset/password',	'PasswordResetController@resetPassword');
+
+
+
+/*
+|--------------------------------------------------------------------------
 | PRODUCT
 |--------------------------------------------------------------------------
 |*/
@@ -170,3 +180,8 @@ Route::get('/order/{id}', 'OrderController@fetchone');
 Route::post('/order', 'OrderController@create');
 Route::post('/order/{id}', 'OrderController@update');
 Route::delete('/order/{id}', 'OrderController@delete');
+
+
+
+
+
