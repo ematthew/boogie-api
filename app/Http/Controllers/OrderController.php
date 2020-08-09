@@ -46,7 +46,6 @@ class OrderController extends Controller
                 'status'    => 'success',
                 'message'   => 'order added'
             ];
-
 		return response()->json($data);
     }
 
@@ -73,34 +72,29 @@ class OrderController extends Controller
         $order->order_long               = 0.67756;
         $order->created_on               = now();
         $order->updated_on               = now();
-        $order->utc_created_on           = now();
         $order->order_accepted_on        = now();
         $order->order_prepared_on        = now();
         $order->order_dispatched_on      = now();
         $order->order_completed_on       = now();
         $order->order_cancelled_on       = now();
+        $order->utc_created_on           = now();
         $order->utc_updated_on           = now();
         $order->deleted_on               = now();
         $order->utc_deleted_on           = now();          
         if($order->save()){
-            $item_lists = $request->file('item_lists');
+            $item_lists = $request->item_lists;
             foreach ($item_lists as $item) {
 
                 $order_item = new BoogieOrderItem();
                 $order_item->order_id                 = $order->id;
-                $order_item->item_name                = $item->title;
-                $order_item->item_qty                 = $item->quantity;
-                $order_item->item_brand               = $item->brand;
+                $order_item->item_name                = $item['title'];
+                $order_item->item_qty                 = $item['quantity'];
+                $order_item->item_brand               = $item['brand'];
                 $order_item->items_Availability       = $request->items_Availability ?? 'AVAILABLE';
                 $order_item->item_status              = $request->item_status ?? 'active';
                 $order_item->created_on               = now();
                 $order_item->updated_on               = now();
                 $order_item->utc_created_on           = now();
-                $order_item->order_accepted_on        = now();
-                $order_item->order_prepared_on        = now();
-                $order_item->order_dispatched_on      = now();
-                $order_item->order_completed_on       = now();
-                $order_item->order_cancelled_on       = now();
                 $order_item->utc_updated_on           = now();
                 $order_item->deleted_on               = now();
                 $order_item->utc_deleted_on           = now();          
@@ -157,9 +151,9 @@ class OrderController extends Controller
             // upload videos
             if($request->multiple == "yes"){
                 # code...
-                $photos = $request->file('photos');
-                foreach ($photos as $photo) {
-                    $destination = public_path('assets/images');
+                foreach ($request->file('photos') as $photo) {
+                    $image_path = 'assets/images';
+                    $destination = public_path($image_path);
                     $extension = $photo->getClientOriginalExtension();
                     $filename  = 'order-image-' . time() . '.' . $extension;
                     
@@ -168,19 +162,17 @@ class OrderController extends Controller
 
                     $order_item = new BoogieOrderItem();
                     $order_item->order_id                 = $order->id;
+                    $order_item->item_name                = 'Not specified';
+                    $order_item->item_qty                 = '1';
+                    $order_item->item_brand               = 'EMPTY';
                     $order_item->media_name               = $filename;
-                    $order_item->media_path               = $destination;
+                    $order_item->media_path               = $image_path;
                     $order_item->items_Availability       = $request->items_Availability ?? 'AVAILABLE';
                     $order_item->item_status              = $request->item_status ?? 'active';
                     $order_item->item_brand               = $request->item_brand;
                     $order_item->created_on               = now();
                     $order_item->updated_on               = now();
                     $order_item->utc_created_on           = now();
-                    $order_item->order_accepted_on        = now();
-                    $order_item->order_prepared_on        = now();
-                    $order_item->order_dispatched_on      = now();
-                    $order_item->order_completed_on       = now();
-                    $order_item->order_cancelled_on       = now();
                     $order_item->utc_updated_on           = now();
                     $order_item->deleted_on               = now();
                     $order_item->utc_deleted_on           = now();          
@@ -188,7 +180,8 @@ class OrderController extends Controller
                 }
             }elseif($request->multiple == "no"){
                 $photo = $request->file('photos');
-                $destination = public_path('assets/images');
+                $image_path = 'assets/images';
+                $destination = public_path($image_path);
                 $extension = $photo->getClientOriginalExtension();
                 $filename  = 'order-image-' . time() . '.' . $extension;
                 
@@ -197,19 +190,17 @@ class OrderController extends Controller
 
                 $order_item = new BoogieOrderItem();
                 $order_item->order_id                 = $order->id;
+                $order_item->item_name                = 'Not specified';
+                $order_item->item_qty                 = '1';
+                $order_item->item_brand               = 'Not specified';
                 $order_item->media_name               = $filename;
-                $order_item->media_path               = $destination;
+                $order_item->media_path               = $image_path;
                 $order_item->items_Availability       = $request->items_Availability ?? 'AVAILABLE';
                 $order_item->item_status              = $request->item_status ?? 'active';
                 $order_item->item_brand               = $request->item_brand ?? 'Not specified';
                 $order_item->created_on               = now();
                 $order_item->updated_on               = now();
                 $order_item->utc_created_on           = now();
-                $order_item->order_accepted_on        = now();
-                $order_item->order_prepared_on        = now();
-                $order_item->order_dispatched_on      = now();
-                $order_item->order_completed_on       = now();
-                $order_item->order_cancelled_on       = now();
                 $order_item->utc_updated_on           = now();
                 $order_item->deleted_on               = now();
                 $order_item->utc_deleted_on           = now();          
@@ -267,8 +258,8 @@ class OrderController extends Controller
             // upload videos
             if($request->multiple == "yes"){
                 # code...
-                $photos = $request->file('photos');
-                foreach ($photos as $audio) {
+                $recordings = $request->file('audio_recordings');
+                foreach ($recordings as $audio) {
                     $destination = public_path('assets/audio');
                     $extension = $audio->getClientOriginalExtension();
                     $filename  = 'order-sound-' . time() . '.' . $extension;
@@ -285,11 +276,6 @@ class OrderController extends Controller
                     $order_item->created_on               = now();
                     $order_item->updated_on               = now();
                     $order_item->utc_created_on           = now();
-                    $order_item->order_accepted_on        = now();
-                    $order_item->order_prepared_on        = now();
-                    $order_item->order_dispatched_on      = now();
-                    $order_item->order_completed_on       = now();
-                    $order_item->order_cancelled_on       = now();
                     $order_item->utc_updated_on           = now();
                     $order_item->deleted_on               = now();
                     $order_item->utc_deleted_on           = now();          
@@ -314,11 +300,6 @@ class OrderController extends Controller
                 $order_item->created_on               = now();
                 $order_item->updated_on               = now();
                 $order_item->utc_created_on           = now();
-                $order_item->order_accepted_on        = now();
-                $order_item->order_prepared_on        = now();
-                $order_item->order_dispatched_on      = now();
-                $order_item->order_completed_on       = now();
-                $order_item->order_cancelled_on       = now();
                 $order_item->utc_updated_on           = now();
                 $order_item->deleted_on               = now();
                 $order_item->utc_deleted_on           = now();          
@@ -361,7 +342,6 @@ class OrderController extends Controller
     }
 
     public function update(Request $request, $id)
-
     {
     		$order                     = BoogieOrder::find($id);
             $order->order_list_type       	 = $request->order_list_type;
@@ -398,10 +378,8 @@ class OrderController extends Controller
                 'status'    => 'success',
                 'message'   => 'order has been updated'
             ];
-
 		return response()->json($data);
     }
-
 
     public function delete(Request $request, $id)
     {
