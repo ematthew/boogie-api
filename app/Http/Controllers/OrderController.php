@@ -323,12 +323,12 @@ class OrderController extends Controller
 
     public function fetchall(Request $request)
     {
-    	$orders = BoogieOrder::limit(5)->orderBy('id', 'DESC')->get();
+    	$orders = BoogieOrder::where("customer_id", $request->user_id)->with('order_items')->orderBy('id', 'DESC')->get();
 
     	$data = [
 			'status'    => 'success',
 			'message'	=> 'fetching successful',
-			'orders'		=> $orders,
+			'orders'	=> $orders,
 
 		];
 		return response()->json($data);
